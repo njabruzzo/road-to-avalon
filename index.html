@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="tracker.css" />
+  <link rel="stylesheet" href="summary.css" />
 </head>
 <body>
   <header class="hero" id="home">
@@ -30,7 +31,7 @@
       <p class="hero-copy">A living map for the things that matter most—creative work, lasting health, deep relationships, freedom, and a life rich with experience.</p>
       <a class="button button-light" href="#pillars">Begin the journey <span>↓</span></a>
     </div>
-    <div class="hero-footer shell"><span>Downers Grove → Raleigh → Everywhere</span><span class="scroll-cue">Scroll to explore</span></div>
+    <div class="hero-footer shell"><span>Create → Strengthen → Explore</span><span class="scroll-cue">Scroll to explore</span></div>
   </header>
 
   <main>
@@ -47,28 +48,36 @@
         <p>Each path supports the others. Together, they lead somewhere extraordinary.</p>
       </div>
 
+      <div class="goal-summary shell reveal" aria-label="Goals by category">
+        <a href="#goal-creative"><span>Creative</span><strong>Publish an original setting and run two campaigns</strong></a>
+        <a href="#goal-health"><span>Health</span><strong>Reach 190 lb, A1C below 6, and build durable strength</strong></a>
+        <a href="#goal-wealth"><span>Home & wealth</span><strong>Create a fulfilling home and a clear path to retirement</strong></a>
+        <a href="#goal-relationships"><span>Relationships</span><strong>Build reliable rituals for deeper family connection</strong></a>
+        <a href="#goal-travel"><span>Experiences</span><strong>Take one major journey and three smaller adventures yearly</strong></a>
+      </div>
+
       <div class="pillar-list shell">
-        <article class="pillar reveal" data-accent="amber">
+        <article class="pillar reveal" data-accent="amber" id="goal-creative">
           <div class="pillar-index">01</div><div class="pillar-icon">✦</div>
           <div class="pillar-body"><p class="kicker">Creative experiments & aspirations</p><h3>Make the strange<br />things real.</h3><p>Turn imagination into tangible worlds—games, toys, books, and stories that invite others in.</p><div class="action-plan"><p class="goal"><b>Goal</b> Publish one original tabletop setting and run two complete campaigns.</p><div class="status-row"><label>Current<input data-save="creative-current" value="Concept development"></label><span>→</span><label>Goal<input data-save="creative-goal" value="1 setting + 2 campaigns"></label></div><label class="update-note">Latest update<textarea data-save="creative-note" placeholder="What moved forward this week?"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="creative-1"><i></i><span>Choose the flagship setting and define its promise</span></label><label><input type="checkbox" data-key="creative-2"><i></i><span>Complete a playable first draft</span></label><label><input type="checkbox" data-key="creative-3"><i></i><span>Run campaign one and collect feedback</span></label><label><input type="checkbox" data-key="creative-4"><i></i><span>Revise, illustrate, and publish</span></label></div></div></div>
           <button class="expand" aria-label="Expand creative goals">+</button>
         </article>
-        <article class="pillar reveal" data-accent="sage">
+        <article class="pillar reveal" data-accent="sage" id="goal-health">
           <div class="pillar-index">02</div><div class="pillar-icon">♥</div>
           <div class="pillar-body"><p class="kicker">Health & strength</p><h3>Build a body for<br />the long adventure.</h3><p>Steady progress over perfection: strength, energy, metabolic health, and confidence.</p><div class="action-plan"><p class="goal"><b>Goal</b> Reach 190 lb and an A1C below 6 while building durable strength.</p><div class="status-row"><label>Current<input data-save="health-current" value="215 lb"></label><span>→</span><label>Goal<input data-save="health-goal" value="190 lb"></label></div><label class="update-note">Latest update<textarea data-save="health-note" placeholder="Add A1C, lifts, habits, or a weekly note…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="health-1"><i></i><span>Strength train three days each week</span></label><label><input type="checkbox" data-key="health-2"><i></i><span>Establish a sustainable nutrition routine</span></label><label><input type="checkbox" data-key="health-3"><i></i><span>Reach an interim A1C below 7</span></label><label><input type="checkbox" data-key="health-4"><i></i><span>Bench 230 lb and deadlift 405 lb</span></label></div></div></div>
           <button class="expand" aria-label="Expand health goals">+</button>
         </article>
-        <article class="pillar reveal" data-accent="blue">
+        <article class="pillar reveal" data-accent="blue" id="goal-wealth">
           <div class="pillar-index">03</div><div class="pillar-icon">⌂</div>
-          <div class="pillar-body"><p class="kicker">Home & wealth</p><h3>Create freedom,<br />not just assets.</h3><p>A home base near Raleigh, a resilient portfolio, and the freedom to choose how each day is spent.</p><div class="action-plan"><p class="goal"><b>Goal</b> Establish a North Carolina home base and a clear path to retirement at 65.</p><div class="status-row"><label>Current<input data-save="wealth-current" value="Researching Raleigh area"></label><span>→</span><label>Goal<input data-save="wealth-goal" value="Home base + retirement plan"></label></div><label class="update-note">Latest update<textarea data-save="wealth-note" placeholder="Record savings, research, or decisions…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="wealth-1"><i></i><span>Choose the best Raleigh-area community</span></label><label><input type="checkbox" data-key="wealth-2"><i></i><span>Set home budget and down-payment target</span></label><label><input type="checkbox" data-key="wealth-3"><i></i><span>Complete annual retirement-plan review</span></label><label><input type="checkbox" data-key="wealth-4"><i></i><span>Move into the North Carolina home base</span></label></div></div></div>
+          <div class="pillar-body"><p class="kicker">Home & wealth</p><h3>Create freedom,<br />not just assets.</h3><p>A fulfilling home, a resilient portfolio, and the freedom to choose how each day is spent.</p><div class="action-plan"><p class="goal"><b>Goal</b> Create a home that supports the life we want and a clear path to retirement at 65.</p><div class="status-row"><label>Current<input data-save="wealth-current" value="Defining the next chapter"></label><span>→</span><label>Goal<input data-save="wealth-goal" value="Ideal home + retirement plan"></label></div><label class="update-note">Latest update<textarea data-save="wealth-note" placeholder="Record savings, research, or decisions…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="wealth-1"><i></i><span>Define the qualities of our ideal home and community</span></label><label><input type="checkbox" data-key="wealth-2"><i></i><span>Set the home budget and down-payment target</span></label><label><input type="checkbox" data-key="wealth-3"><i></i><span>Complete an annual retirement-plan review</span></label><label><input type="checkbox" data-key="wealth-4"><i></i><span>Establish the next long-term home base</span></label></div></div></div>
           <button class="expand" aria-label="Expand wealth goals">+</button>
         </article>
-        <article class="pillar reveal" data-accent="rose">
+        <article class="pillar reveal" data-accent="rose" id="goal-relationships">
           <div class="pillar-index">04</div><div class="pillar-icon">∞</div>
           <div class="pillar-body"><p class="kicker">Relationships</p><h3>Choose connection,<br />again and again.</h3><p>Make time feel abundant for Debra, Francesca, Anthony, and Isabella. Listen well. Show up fully.</p><div class="action-plan"><p class="goal"><b>Goal</b> Create reliable rituals for deeper connection with Debra and each of the kids.</p><div class="status-row"><label>Current<input data-save="relationships-current" value="Building consistency"></label><span>→</span><label>Goal<input data-save="relationships-goal" value="Weekly + monthly rituals"></label></div><label class="update-note">Latest update<textarea data-save="relationships-note" placeholder="Capture a moment, plan, or next connection…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="relationships-1"><i></i><span>Plan one intentional date with Debra each month</span></label><label><input type="checkbox" data-key="relationships-2"><i></i><span>Create a one-on-one ritual with each child</span></label><label><input type="checkbox" data-key="relationships-3"><i></i><span>Plan a full-family experience each quarter</span></label><label><input type="checkbox" data-key="relationships-4"><i></i><span>Take one meaningful family trip together</span></label></div></div></div>
           <button class="expand" aria-label="Expand relationship goals">+</button>
         </article>
-        <article class="pillar reveal" data-accent="gold">
+        <article class="pillar reveal" data-accent="gold" id="goal-travel">
           <div class="pillar-index">05</div><div class="pillar-icon">↗</div>
           <div class="pillar-body"><p class="kicker">Experiences & travel</p><h3>Collect stories,<br />not souvenirs.</h3><p>Follow wild trout, strange conventions, old cities, and the irresistible pull of places not yet known.</p><div class="action-plan"><p class="goal"><b>Goal</b> Take one major journey and three smaller curiosity-driven adventures every year.</p><div class="status-row"><label>Current<input data-save="travel-current" value="Planning the next journey"></label><span>→</span><label>Goal<input data-save="travel-goal" value="1 major + 3 small / year"></label></div><label class="update-note">Latest update<textarea data-save="travel-note" placeholder="Add the next destination, booking, or idea…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="travel-1"><i></i><span>Choose and schedule this year's major journey</span></label><label><input type="checkbox" data-key="travel-2"><i></i><span>Book a destination fly-fishing experience</span></label><label><input type="checkbox" data-key="travel-3"><i></i><span>Attend a game, miniatures, or weird convention</span></label><label><input type="checkbox" data-key="travel-4"><i></i><span>Explore somewhere outside the usual orbit</span></label></div></div></div>
           <button class="expand" aria-label="Expand experience goals">+</button>
@@ -97,7 +106,7 @@
         <p>Specific enough to pursue. Open enough to surprise me.</p>
       </div>
       <div class="board-grid">
-        <article class="vision-card feature reveal"><span class="card-no">01</span><div><p>Home base</p><h3>Morning light<br />in North Carolina</h3><span class="line-link">Raleigh area · 2027 ↗</span></div></article>
+        <article class="vision-card feature reveal"><span class="card-no">01</span><div><p>Home base</p><h3>A home built<br />for the life ahead</h3><span class="line-link">Comfort · Freedom · Belonging ↗</span></div></article>
         <article class="vision-card dark-card reveal"><span class="card-no">02</span><div><p>Creative</p><h3>Publish a world<br />only I could make</h3><span class="line-link">Two campaigns · One book ↗</span></div></article>
         <article class="vision-card quote-card reveal"><span class="card-no">03</span><div class="compass">✦</div><h3>“Stay close to the things that make you glad you’re alive.”</h3></article>
         <article class="vision-card warm-card reveal"><span class="card-no">04</span><div><p>Adventure</p><h3>Cast into wild water</h3><span class="line-link">Maine · NC · New Zealand ↗</span></div></article>
