@@ -1,1 +1,2 @@
 .goal-editor{width:100%;min-height:58px;padding:0;border:0;border-bottom:1px dashed transparent;background:transparent;color:var(--ink);font:400 18px/1.4 var(--serif);resize:vertical;outline:none}.goal-editor:hover{border-bottom-color:var(--line)}.goal-editor:focus{border-bottom-color:#8b7250;background:rgba(255,255,255,.34)}
+.milestone-text{min-width:0;border-bottom:1px dashed transparent;outline:none}.milestone-text:hover{border-bottom-color:var(--line)}.milestone-text:focus{border-bottom-color:#8b7250;background:rgba(255,255,255,.4)}

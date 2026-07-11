@@ -44,3 +44,15 @@ document.querySelectorAll('[data-save]').forEach(field => {
   if (stored !== null) field.value = stored;
   field.addEventListener('input', () => localStorage.setItem(`avalon-${field.dataset.save}`, field.value));
 });
+
+document.querySelectorAll('[data-text-save]').forEach(field => {
+  const stored = localStorage.getItem(`avalon-${field.dataset.textSave}`);
+  if (stored !== null) field.textContent = stored;
+  field.addEventListener('input', () => localStorage.setItem(`avalon-${field.dataset.textSave}`, field.textContent.trim()));
+  field.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      field.blur();
+    }
+  });
+});
