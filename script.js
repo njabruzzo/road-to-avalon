@@ -67,6 +67,68 @@ document.querySelectorAll('textarea').forEach(field => {
   field.addEventListener('input', () => fitTextarea(field));
 });
 
+const milestoneLists = new Map();
+
+document.querySelectorAll('.checklist').forEach(checklist => {
+  const originalRows = [...checklist.querySelectorAll('label')];
+  const firstKey = originalRows[0]?.querySelector('input')?.dataset.key || `list-${milestoneLists.size}`;
+  const category = firstKey.split('-')[0];
+  const storageKey = `avalon-milestones-${category}`;
+  const defaults = originalRows.map((row, index) => {
+    const checkbox = row.querySelector('input');
+    return {
+      id: checkbox?.dataset.key || `${category}-${index + 1}`,
+      text: row.querySelector('.milestone-text, span')?.textContent.trim() || 'New milestone',
+      checked: checkbox?.checked || localStorage.getItem(`avalon-${checkbox?.dataset.key}`) === 'true'
+    };
+  });
+  let items;
+  try { items = JSON.parse(localStorage.getItem(storageKey)) || defaults; }
+  catch { items = defaults; }
+
+  const save = () => localStorage.setItem(storageKey, JSON.stringify(items));
+  const render = (focusId = null) => {
+    checklist.innerHTML = '';
+    items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'milestone-row';
+      row.innerHTML = `<label><input type="checkbox" data-key="${item.id}"><i></i><span class="milestone-text" role="textbox" aria-label="Edit milestone"></span></label><button class="delete-milestone" type="button" aria-label="Delete milestone">×</button>`;
+      const checkbox = row.querySelector('input');
+      const text = row.querySelector('.milestone-text');
+      checkbox.checked = item.checked;
+      text.textContent = item.text;
+      text.setAttribute('contenteditable', String(document.body.classList.contains('editing') || item.id === focusId));
+      checkbox.addEventListener('change', () => { item.checked = checkbox.checked; save(); });
+      text.addEventListener('input', () => { item.text = text.textContent.trim(); save(); });
+      text.addEventListener('keydown', event => {
+        if (event.key === 'Enter') { event.preventDefault(); text.blur(); }
+      });
+      row.querySelector('.delete-milestone').addEventListener('click', () => {
+        items = items.filter(candidate => candidate.id !== item.id);
+        save();
+        render();
+      });
+      checklist.appendChild(row);
+    });
+    const add = document.createElement('button');
+    add.className = 'add-milestone';
+    add.type = 'button';
+    add.textContent = '+ Add milestone';
+    add.addEventListener('click', () => {
+      const item = { id: `${category}-${Date.now()}`, text: 'New milestone', checked: false };
+      items.push(item);
+      save();
+      render(item.id);
+      const field = checklist.querySelector(`[data-key="${item.id}"]`)?.closest('.milestone-row')?.querySelector('.milestone-text');
+      field?.focus();
+      document.getSelection()?.selectAllChildren(field);
+    });
+    checklist.appendChild(add);
+  };
+  milestoneLists.set(category, { render });
+  render();
+});
+
 const editToggle = document.querySelector('.edit-toggle');
 const finishEdit = document.querySelector('.finish-edit');
 const pageTextSelector = [
@@ -76,7 +138,7 @@ const pageTextSelector = [
   '.pillar-index', '.pillar-icon', '.section-number',
   '.metric-card > a', '.metric-card > span',
   '.vision-card .card-no', '.vision-card .line-link', '.compass',
-  '.checklist .milestone-text', 'footer .shell > span'
+  'footer .shell > span'
 ].join(',');
 
 const pageText = [...new Set(document.querySelectorAll(pageTextSelector))]
@@ -100,6 +162,7 @@ const setEditMode = enabled => {
   editToggle.setAttribute('aria-pressed', String(enabled));
   editToggle.textContent = enabled ? 'Editing…' : 'Edit page';
   pageText.forEach(field => field.setAttribute('contenteditable', String(enabled)));
+  document.querySelectorAll('.milestone-text').forEach(field => field.setAttribute('contenteditable', String(enabled)));
 };
 
 editToggle.addEventListener('click', () => setEditMode(!document.body.classList.contains('editing')));
