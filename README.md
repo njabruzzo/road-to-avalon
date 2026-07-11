@@ -1,6 +1,6 @@
 # Road to Avalon
 
-A responsive personal vision-board website for Nick, organized around five life paths: creativity, health, home and wealth, relationships, and experiences.
+A responsive personal vision-board, organized around five life paths: creativity, health, home & wealth, relationships, and experiences.
 
 ## Run locally
 
