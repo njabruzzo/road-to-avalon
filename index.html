@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="goal-editor.css" />
   <link rel="stylesheet" href="hero-image.css" />
   <link rel="stylesheet" href="editable-measures.css" />
+  <link rel="stylesheet" href="textarea-fit.css" />
+  <link rel="stylesheet" href="edit-ui.css" />
 </head>
 <body>
   <header class="hero" id="home">
@@ -27,6 +29,7 @@
       <div class="nav-links">
         <a href="#pillars">The journey</a><a href="#metrics">Measures</a><a href="#board">Vision board</a>
       </div>
+      <button class="edit-toggle" type="button" aria-pressed="false">Edit page</button>
     </nav>
 
     <div class="hero-content shell reveal">
@@ -37,6 +40,11 @@
     </div>
     <div class="hero-footer shell"><span>Create → Strengthen → Explore</span><span class="scroll-cue">Scroll to explore</span></div>
   </header>
+
+  <aside class="edit-toolbar" aria-live="polite">
+    <div><span class="edit-status-dot"></span><strong>Edit mode</strong><small>Changes save automatically in this browser</small></div>
+    <button class="finish-edit" type="button">Finish editing</button>
+  </aside>
 
   <main>
     <section class="metrics section" id="metrics">
