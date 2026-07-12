@@ -1,131 +1,86 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0c1514" />
-  <meta name="description" content="Nick's personal vision board — a living map for creativity, health, wealth, relationships, and adventure." />
-  <title>Road to Avalon — Nick's Vision</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="tracker.css" />
-  <link rel="stylesheet" href="summary.css" />
-  <link rel="stylesheet" href="goal-editor.css" />
-  <link rel="stylesheet" href="hero-image.css" />
-  <link rel="stylesheet" href="editable-measures.css" />
-  <link rel="stylesheet" href="textarea-fit.css" />
-  <link rel="stylesheet" href="edit-ui.css" />
-  <link rel="stylesheet" href="milestone-manager.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b19">
+  <meta name="description" content="Road to Avalon — Nick's private, living map for the next chapter.">
+  <title>Road to Avalon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="hero" id="home">
-    <img class="hero-image" src="assets/road-to-avalon.png" alt="A winding mountain road leading to a castle in the clouds" />
+  <header class="hero" id="top">
     <nav class="nav shell" aria-label="Primary navigation">
-      <a class="brand" href="#home" aria-label="Road to Avalon home">
-        <span class="brand-mark">A</span><span>Road to Avalon</span>
-      </a>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Open navigation"><span></span><span></span></button>
-      <div class="nav-links">
-        <a href="#pillars">The journey</a><a href="#metrics">Measures</a><a href="#board">Vision board</a>
-      </div>
-      <button class="edit-toggle" type="button" aria-pressed="false">Edit page</button>
+      <a class="brand" href="#top"><span class="brand-mark">A</span><span>Road to Avalon</span></a>
+      <div class="nav-links"><a href="#dashboard">Dashboard</a><a href="#paths">Six paths</a><a href="#horizon">Horizon</a></div>
+      <button class="button ghost edit-toggle" type="button" aria-pressed="false">Edit journey</button>
     </nav>
-
-    <div class="hero-content shell reveal">
+    <div class="hero-content shell">
       <p class="eyebrow">The next chapter · 2026—2036</p>
-      <h1>Build a life filled with<br /><em>wonder & strength.</em></h1>
-      <p class="hero-copy">A living map for the things that matter most—creative work, lasting health, deep relationships, freedom, and a life rich with experience.</p>
-      <a class="button button-light" href="#pillars">Begin the journey <span>↓</span></a>
+      <h1>A life built with<br><em>wonder & strength.</em></h1>
+      <p class="hero-copy">A living map for creative work, lasting health, deep relationships, freedom, wisdom, and a life rich with experience.</p>
+      <a class="text-link" href="#dashboard">See where I am <span>↓</span></a>
     </div>
-    <div class="hero-footer shell"><span>Create → Strengthen → Explore</span><span class="scroll-cue">Scroll to explore</span></div>
+    <div class="hero-foot shell"><span>Create · Strengthen · Learn · Explore</span><span>Keep taking the next right step</span></div>
   </header>
 
-  <aside class="edit-toolbar" aria-live="polite">
-    <div><span class="edit-status-dot"></span><strong>Edit mode</strong><small>Changes save automatically in this browser</small></div>
-    <button class="finish-edit" type="button">Finish editing</button>
+  <aside class="edit-bar" aria-live="polite">
+    <div><i></i><strong>Edit mode</strong><span>Select any highlighted text to change it. Updates save on this device.</span></div>
+    <div class="edit-actions"><button class="button secondary" id="export-data" type="button">Download backup</button><label class="button secondary import-label">Restore backup<input id="import-data" type="file" accept="application/json"></label><button class="button finish-edit" type="button">Finish</button></div>
   </aside>
 
   <main>
-    <section class="metrics section" id="metrics">
-      <div class="shell section-heading light reveal">
-        <div><p class="section-number">01</p><p class="eyebrow">Measures that matter</p></div>
-        <h2>Dream boldly.<br /><em>Measure honestly.</em></h2>
-        <p>Five living goals—one for each path below. Edit them here whenever your vision changes.</p>
-      </div>
-      <div class="metric-grid category-metrics shell">
-        <article class="metric-card reveal"><a href="#goal-creative">Creative</a><textarea data-save="measure-creative" aria-label="Edit creative measure">Publish one original setting and run two complete campaigns.</textarea><span>Creative experiments & aspirations</span></article>
-        <article class="metric-card reveal"><a href="#goal-health">Health</a><textarea data-save="measure-health" aria-label="Edit health measure">Reach 190 lb, A1C below 6, and build durable strength.</textarea><span>Health & strength</span></article>
-        <article class="metric-card reveal"><a href="#goal-wealth">Home & wealth</a><textarea data-save="measure-wealth" aria-label="Edit home and wealth measure">Create an ideal home and a clear path to retirement.</textarea><span>Home & wealth</span></article>
-        <article class="metric-card reveal"><a href="#goal-relationships">Relationships</a><textarea data-save="measure-relationships" aria-label="Edit relationship measure">Build reliable rituals for deeper family connection.</textarea><span>Relationships</span></article>
-        <article class="metric-card reveal"><a href="#goal-travel">Experiences</a><textarea data-save="measure-travel" aria-label="Edit experience measure">Take one major journey and three smaller adventures yearly.</textarea><span>Experiences & travel</span></article>
-      </div>
-    </section>
-
-    <section class="north-star section shell reveal">
-      <div><p class="section-number">02</p><p class="eyebrow dark">North star</p></div>
-      <blockquote>“Be strong enough to explore.<br />Curious enough to create.<br />Present enough to love.”</blockquote>
-      <p class="north-copy">Success isn't one summit. It's the freedom to keep climbing—with Debra and the kids close, meaningful work in your hands, and new places still on the horizon.</p>
-    </section>
-
-    <section class="pillars section" id="pillars">
-      <div class="shell section-heading reveal">
-        <div><p class="section-number">03</p><p class="eyebrow dark">Five paths forward</p></div>
-        <h2>The life I’m<br /><em>building</em></h2>
-        <p>Each path supports the others. Together, they lead somewhere extraordinary.</p>
-      </div>
-
-      <div class="pillar-list shell">
-        <article class="pillar reveal" data-accent="amber" id="goal-creative">
-          <div class="pillar-index">01</div><div class="pillar-icon">✦</div>
-          <div class="pillar-body"><p class="kicker">Creative experiments & aspirations</p><h3>Make the strange<br />things real.</h3><p>Turn imagination into tangible worlds—games, toys, books, and stories that invite others in.</p><div class="action-plan"><div class="goal"><b>Goal</b><textarea class="goal-editor" data-save="creative-description" aria-label="Edit creative goal">Publish one original tabletop setting and run two complete campaigns.</textarea></div><div class="status-row"><label>Current<input data-save="creative-current" value="Concept development"></label><span>→</span><label>Goal<input data-save="creative-goal" value="1 setting + 2 campaigns"></label></div><label class="update-note">Latest update<textarea data-save="creative-note" placeholder="What moved forward this week?"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="creative-1"><i></i><span class="milestone-text" contenteditable="true" data-text-save="creative-1-label" role="textbox" aria-label="Edit milestone">Choose the flagship setting and define its promise</span></label><label><input type="checkbox" data-key="creative-2"><i></i><span class="milestone-text" contenteditable="true" data-text-save="creative-2-label" role="textbox" aria-label="Edit milestone">Complete a playable first draft</span></label><label><input type="checkbox" data-key="creative-3"><i></i><span class="milestone-text" contenteditable="true" data-text-save="creative-3-label" role="textbox" aria-label="Edit milestone">Run campaign one and collect feedback</span></label><label><input type="checkbox" data-key="creative-4"><i></i><span class="milestone-text" contenteditable="true" data-text-save="creative-4-label" role="textbox" aria-label="Edit milestone">Revise, illustrate, and publish</span></label></div></div></div>
-          <button class="expand" aria-label="Expand creative goals">+</button>
-        </article>
-        <article class="pillar reveal" data-accent="sage" id="goal-health">
-          <div class="pillar-index">02</div><div class="pillar-icon">♥</div>
-          <div class="pillar-body"><p class="kicker">Health & strength</p><h3>Build a body for<br />the long adventure.</h3><p>Steady progress over perfection: strength, energy, metabolic health, and confidence.</p><div class="action-plan"><div class="goal"><b>Goal</b><textarea class="goal-editor" data-save="health-description" aria-label="Edit health goal">Reach 190 lb and an A1C below 6 while building durable strength.</textarea></div><div class="status-row"><label>Current<input data-save="health-current" value="215 lb"></label><span>→</span><label>Goal<input data-save="health-goal" value="190 lb"></label></div><label class="update-note">Latest update<textarea data-save="health-note" placeholder="Add A1C, lifts, habits, or a weekly note…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="health-1"><i></i><span class="milestone-text" contenteditable="true" data-text-save="health-1-label" role="textbox" aria-label="Edit milestone">Strength train three days each week</span></label><label><input type="checkbox" data-key="health-2"><i></i><span class="milestone-text" contenteditable="true" data-text-save="health-2-label" role="textbox" aria-label="Edit milestone">Establish a sustainable nutrition routine</span></label><label><input type="checkbox" data-key="health-3"><i></i><span class="milestone-text" contenteditable="true" data-text-save="health-3-label" role="textbox" aria-label="Edit milestone">Reach an interim A1C below 7</span></label><label><input type="checkbox" data-key="health-4"><i></i><span class="milestone-text" contenteditable="true" data-text-save="health-4-label" role="textbox" aria-label="Edit milestone">Bench 230 lb and deadlift 405 lb</span></label></div></div></div>
-          <button class="expand" aria-label="Expand health goals">+</button>
-        </article>
-        <article class="pillar reveal" data-accent="blue" id="goal-wealth">
-          <div class="pillar-index">03</div><div class="pillar-icon">⌂</div>
-          <div class="pillar-body"><p class="kicker">Home & wealth</p><h3>Create freedom,<br />not just assets.</h3><p>A fulfilling home, a resilient portfolio, and the freedom to choose how each day is spent.</p><div class="action-plan"><div class="goal"><b>Goal</b><textarea class="goal-editor" data-save="wealth-description" aria-label="Edit home and wealth goal">Create a home that supports the life we want and a clear path to retirement at 65.</textarea></div><div class="status-row"><label>Current<input data-save="wealth-current" value="Defining the next chapter"></label><span>→</span><label>Goal<input data-save="wealth-goal" value="Ideal home + retirement plan"></label></div><label class="update-note">Latest update<textarea data-save="wealth-note" placeholder="Record savings, research, or decisions…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="wealth-1"><i></i><span class="milestone-text" contenteditable="true" data-text-save="wealth-1-label" role="textbox" aria-label="Edit milestone">Define the qualities of our ideal home and community</span></label><label><input type="checkbox" data-key="wealth-2"><i></i><span class="milestone-text" contenteditable="true" data-text-save="wealth-2-label" role="textbox" aria-label="Edit milestone">Set the home budget and down-payment target</span></label><label><input type="checkbox" data-key="wealth-3"><i></i><span class="milestone-text" contenteditable="true" data-text-save="wealth-3-label" role="textbox" aria-label="Edit milestone">Complete an annual retirement-plan review</span></label><label><input type="checkbox" data-key="wealth-4"><i></i><span class="milestone-text" contenteditable="true" data-text-save="wealth-4-label" role="textbox" aria-label="Edit milestone">Establish the next long-term home base</span></label></div></div></div>
-          <button class="expand" aria-label="Expand wealth goals">+</button>
-        </article>
-        <article class="pillar reveal" data-accent="rose" id="goal-relationships">
-          <div class="pillar-index">04</div><div class="pillar-icon">∞</div>
-          <div class="pillar-body"><p class="kicker">Relationships</p><h3>Choose connection,<br />again and again.</h3><p>Make time feel abundant for Debra, Francesca, Anthony, and Isabella. Listen well. Show up fully.</p><div class="action-plan"><div class="goal"><b>Goal</b><textarea class="goal-editor" data-save="relationships-description" aria-label="Edit relationships goal">Create reliable rituals for deeper connection with Debra and each of the kids.</textarea></div><div class="status-row"><label>Current<input data-save="relationships-current" value="Building consistency"></label><span>→</span><label>Goal<input data-save="relationships-goal" value="Weekly + monthly rituals"></label></div><label class="update-note">Latest update<textarea data-save="relationships-note" placeholder="Capture a moment, plan, or next connection…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="relationships-1"><i></i><span class="milestone-text" contenteditable="true" data-text-save="relationships-1-label" role="textbox" aria-label="Edit milestone">Plan one intentional date with Debra each month</span></label><label><input type="checkbox" data-key="relationships-2"><i></i><span class="milestone-text" contenteditable="true" data-text-save="relationships-2-label" role="textbox" aria-label="Edit milestone">Create a one-on-one ritual with each child</span></label><label><input type="checkbox" data-key="relationships-3"><i></i><span class="milestone-text" contenteditable="true" data-text-save="relationships-3-label" role="textbox" aria-label="Edit milestone">Plan a full-family experience each quarter</span></label><label><input type="checkbox" data-key="relationships-4"><i></i><span class="milestone-text" contenteditable="true" data-text-save="relationships-4-label" role="textbox" aria-label="Edit milestone">Take one meaningful family trip together</span></label></div></div></div>
-          <button class="expand" aria-label="Expand relationship goals">+</button>
-        </article>
-        <article class="pillar reveal" data-accent="gold" id="goal-travel">
-          <div class="pillar-index">05</div><div class="pillar-icon">↗</div>
-          <div class="pillar-body"><p class="kicker">Experiences & travel</p><h3>Collect stories,<br />not souvenirs.</h3><p>Follow wild trout, strange conventions, old cities, and the irresistible pull of places not yet known.</p><div class="action-plan"><div class="goal"><b>Goal</b><textarea class="goal-editor" data-save="travel-description" aria-label="Edit experiences goal">Take one major journey and three smaller curiosity-driven adventures every year.</textarea></div><div class="status-row"><label>Current<input data-save="travel-current" value="Planning the next journey"></label><span>→</span><label>Goal<input data-save="travel-goal" value="1 major + 3 small / year"></label></div><label class="update-note">Latest update<textarea data-save="travel-note" placeholder="Add the next destination, booking, or idea…"></textarea></label><div class="checklist"><label><input type="checkbox" data-key="travel-1"><i></i><span class="milestone-text" contenteditable="true" data-text-save="travel-1-label" role="textbox" aria-label="Edit milestone">Choose and schedule this year's major journey</span></label><label><input type="checkbox" data-key="travel-2"><i></i><span class="milestone-text" contenteditable="true" data-text-save="travel-2-label" role="textbox" aria-label="Edit milestone">Book a destination fly-fishing experience</span></label><label><input type="checkbox" data-key="travel-3"><i></i><span class="milestone-text" contenteditable="true" data-text-save="travel-3-label" role="textbox" aria-label="Edit milestone">Attend a game, miniatures, or weird convention</span></label><label><input type="checkbox" data-key="travel-4"><i></i><span class="milestone-text" contenteditable="true" data-text-save="travel-4-label" role="textbox" aria-label="Edit milestone">Explore somewhere outside the usual orbit</span></label></div></div></div>
-          <button class="expand" aria-label="Expand experience goals">+</button>
-        </article>
+    <section class="dashboard section" id="dashboard">
+      <div class="shell">
+        <div class="section-head light">
+          <div><p class="eyebrow">Your living dashboard</p><h2>Where the road<br><em>stands today.</em></h2></div>
+          <p>Some goals are measured in numbers. Others unfold through meaningful milestones. This view makes room for both.</p>
+        </div>
+        <div class="overall-panel">
+          <div><p class="label">Overall journey</p><strong id="overall-progress">0%</strong></div>
+          <div class="overall-track"><i id="overall-bar"></i></div>
+          <p id="overall-caption">Begin with one next step.</p>
+        </div>
+        <div class="summary-grid" id="summary-grid" aria-label="Goal summary"></div>
       </div>
     </section>
 
-    <section class="board section shell" id="board">
-      <div class="section-heading reveal">
-        <div><p class="section-number">04</p><p class="eyebrow dark">On the horizon</p></div>
-        <h2>A life with<br /><em>texture.</em></h2>
+    <section class="north-star section shell">
+      <p class="eyebrow dark">North star</p>
+      <blockquote data-edit="north-star">“Be strong enough to explore.<br>Curious enough to create.<br>Present enough to love.”</blockquote>
+      <p data-edit="north-copy">Success isn’t one summit. It’s the freedom to keep climbing—with Debra and the kids close, meaningful work in your hands, and new places still on the horizon.</p>
+    </section>
+
+    <section class="paths section" id="paths">
+      <div class="shell">
+        <div class="section-head">
+          <div><p class="eyebrow dark">Six paths forward</p><h2>The life I’m<br><em>building.</em></h2></div>
+          <p>Open a path to update the goal, record where things stand, and mark the milestones that move it forward.</p>
+        </div>
+        <div class="path-list" id="path-list"></div>
+      </div>
+    </section>
+
+    <section class="horizon section shell" id="horizon">
+      <div class="section-head">
+        <div><p class="eyebrow dark">On the horizon</p><h2>A life with<br><em>texture.</em></h2></div>
         <p>Specific enough to pursue. Open enough to surprise me.</p>
       </div>
-      <div class="board-grid">
-        <article class="vision-card feature reveal"><span class="card-no">01</span><div><p>Home base</p><h3>A home built<br />for the life ahead</h3><span class="line-link">Comfort · Freedom · Belonging ↗</span></div></article>
-        <article class="vision-card dark-card reveal"><span class="card-no">02</span><div><p>Creative</p><h3>Publish a world<br />only I could make</h3><span class="line-link">Two campaigns · One book ↗</span></div></article>
-        <article class="vision-card quote-card reveal"><span class="card-no">03</span><div class="compass">✦</div><h3>“Stay close to the things that make you glad you’re alive.”</h3></article>
-        <article class="vision-card warm-card reveal"><span class="card-no">04</span><div><p>Adventure</p><h3>Cast into wild water</h3><span class="line-link">Wild rivers · New places · New Zealand ↗</span></div></article>
-        <article class="vision-card light-card reveal"><span class="card-no">05</span><div><p>Together</p><h3>More tables.<br />More stories.<br />More time.</h3><span class="line-link">Debra & the kids ↗</span></div></article>
+      <div class="horizon-grid">
+        <article class="horizon-card image-card"><span>01 · Home base</span><div><h3 data-edit="horizon-home">A home built for the life ahead</h3><p data-edit="horizon-home-note">Comfort · Freedom · Belonging</p></div></article>
+        <article class="horizon-card ink-card"><span>02 · Creative</span><div><h3 data-edit="horizon-create">Publish a world only I could make</h3><p data-edit="horizon-create-note">Two campaigns · One book</p></div></article>
+        <article class="horizon-card warm-card"><span>03 · Adventure</span><div><h3 data-edit="horizon-travel">Cast into wild water</h3><p data-edit="horizon-travel-note">Wild rivers · Strange conventions · New Zealand</p></div></article>
+        <article class="horizon-card pale-card"><span>04 · Together</span><div><h3 data-edit="horizon-family">More tables. More stories. More time.</h3><p data-edit="horizon-family-note">Debra & the kids</p></div></article>
       </div>
     </section>
 
-    <section class="closing section">
-      <div class="shell reveal"><p class="eyebrow">The road continues</p><h2>Not someday.<br /><em>Today.</em></h2><p>Every meaningful life is built in ordinary hours.<br />Choose the next right step.</p><a class="button" href="#home">Return to the beginning <span>↑</span></a></div>
-    </section>
+    <section class="closing section"><div class="shell"><p class="eyebrow">The road continues</p><h2>Not someday.<br><em>Today.</em></h2><p>Every meaningful life is built in ordinary hours.<br>Choose the next right step.</p><a class="text-link" href="#top">Return to the beginning ↑</a></div></section>
   </main>
 
-  <footer><div class="shell"><a class="brand" href="#home"><span class="brand-mark">A</span><span>Road to Avalon</span></a><p>A personal vision, made visible.</p><span>© <span id="year"></span> Nick Abruzzo</span></div></footer>
+  <footer><div class="shell"><a class="brand" href="#top"><span class="brand-mark">A</span><span>Road to Avalon</span></a><p>Your entries stay in this browser unless you download a backup.</p><span>© <span id="year"></span> Nick Abruzzo</span></div></footer>
   <script src="script.js"></script>
 </body>
 </html>
