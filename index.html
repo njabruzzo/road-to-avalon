@@ -3,84 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101b19">
-  <meta name="description" content="Road to Avalon — Nick's private, living map for the next chapter.">
-  <title>Road to Avalon</title>
+  <meta name="theme-color" content="#0a0612">
+  <meta name="description" content="Quest for Avalon — a gamified vision board for your road ahead.">
+  <title>Quest for Avalon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="hero" id="top">
-    <nav class="nav shell" aria-label="Primary navigation">
-      <a class="brand" href="#top"><span class="brand-mark">A</span><span>Road to Avalon</span></a>
-      <div class="nav-links"><a href="#dashboard">Dashboard</a><a href="#paths">Six paths</a><a href="#horizon">Horizon</a></div>
-      <button class="button ghost edit-toggle" type="button" aria-pressed="false">Edit journey</button>
-    </nav>
-    <div class="hero-content shell">
-      <p class="eyebrow">The next chapter · 2026—2036</p>
-      <h1>A life built with<br><em>wonder & strength.</em></h1>
-      <p class="hero-copy">A living map for creative work, lasting health, deep relationships, freedom, wisdom, and a life rich with experience.</p>
-      <a class="text-link" href="#dashboard">See where I am <span>↓</span></a>
-    </div>
-    <div class="hero-foot shell"><span>Create · Strengthen · Learn · Explore</span><span>Keep taking the next right step</span></div>
-  </header>
+  <div id="app" class="app">
+    <!-- TITLE SCREEN -->
+    <section id="screen-title" class="screen screen-title is-active" aria-label="Title screen">
+      <div class="title-sky" aria-hidden="true">
+        <div class="parallax mountain"></div>
+        <div class="parallax castle"></div>
+        <div class="parallax village"></div>
+        <div class="parallax trees"></div>
+        <div class="fog fog-a"></div>
+        <div class="fog fog-b"></div>
+      </div>
+      <div class="title-panel">
+        <p class="arcade-tag">16-BIT ADVENTURE</p>
+        <h1 class="title-glow">WELCOME TO<br>QUEST FOR AVALON!</h1>
+        <button id="btn-begin" class="arcade-btn blink" type="button">
+          [ I'M READY TO BEGIN MY ADVENTURE! ]
+        </button>
+        <p class="audio-hint">Audio unlocks on start · Press Start</p>
+      </div>
+    </section>
 
-  <aside class="edit-bar" aria-live="polite">
-    <div><i></i><strong>Edit mode</strong><span>Select any highlighted text to change it. Updates save on this device.</span></div>
-    <div class="edit-actions"><button class="button secondary" id="export-data" type="button">Download backup</button><label class="button secondary import-label">Restore backup<input id="import-data" type="file" accept="application/json"></label><button class="button finish-edit" type="button">Finish</button></div>
-  </aside>
-
-  <main>
-    <section class="dashboard section" id="dashboard">
-      <div class="shell">
-        <div class="section-head light">
-          <div><p class="eyebrow">Your living dashboard</p><h2>Where the road<br><em>stands today.</em></h2></div>
-          <p>Some goals are measured in numbers. Others unfold through meaningful milestones. This view makes room for both.</p>
+    <!-- SCREEN 1: TAVERN / CHARACTER CREATION -->
+    <section id="screen-tavern" class="screen screen-tavern" hidden aria-label="Character creation">
+      <div class="typewriter-stage" id="name-stage">
+        <p class="prompt-line" id="name-prompt" aria-live="polite"></p>
+        <label class="sr-only" for="adventurer-name">Your name</label>
+        <div class="name-row">
+          <span class="bracket">[</span>
+          <input id="adventurer-name" class="pixel-input" maxlength="16" autocomplete="off" spellcheck="false" placeholder="">
+          <span class="cursor-blink" aria-hidden="true">_</span>
+          <span class="bracket">]</span>
         </div>
-        <div class="overall-panel">
-          <div><p class="label">Overall journey</p><strong id="overall-progress">0%</strong></div>
-          <div class="overall-track"><i id="overall-bar"></i></div>
-          <p id="overall-caption">Begin with one next step.</p>
+        <button id="btn-confirm-name" class="arcade-btn small" type="button" hidden>[ CONTINUE ]</button>
+      </div>
+
+      <div class="tavern-stage" id="class-stage" hidden>
+        <div class="tavern-bg" aria-hidden="true">
+          <div class="hearth"></div>
+          <div class="shadows" id="class-shadows">
+            <button class="shadow-figure" data-class="male-knight" type="button" aria-label="Male Knight">
+              <span class="figure knight"></span>
+            </button>
+            <button class="shadow-figure" data-class="male-wizard" type="button" aria-label="Male Wizard">
+              <span class="figure wizard-m"></span>
+            </button>
+            <button class="shadow-figure" data-class="female-wizard" type="button" aria-label="Female Wizard">
+              <span class="figure wizard-f"></span>
+            </button>
+          </div>
+          <div class="table-top"></div>
         </div>
-        <div class="summary-grid" id="summary-grid" aria-label="Goal summary"></div>
-      </div>
-    </section>
-
-    <section class="north-star section shell">
-      <p class="eyebrow dark">North star</p>
-      <blockquote data-edit="north-star">“Be strong enough to explore.<br>Curious enough to create.<br>Present enough to love.”</blockquote>
-      <p data-edit="north-copy">Success isn’t one summit. It’s the freedom to keep climbing—with Debra and the kids close, meaningful work in your hands, and new places still on the horizon.</p>
-    </section>
-
-    <section class="paths section" id="paths">
-      <div class="shell">
-        <div class="section-head">
-          <div><p class="eyebrow dark">Six paths forward</p><h2>The life I’m<br><em>building.</em></h2></div>
-          <p>Open a path to update the goal, record where things stand, and mark the milestones that move it forward.</p>
+        <div class="tavern-ui">
+          <p class="prompt-line" id="class-prompt"></p>
+          <div class="class-menu" role="listbox" aria-label="Choose your class">
+            <button class="class-option" data-class="male-knight" type="button">[ MALE KNIGHT ]</button>
+            <button class="class-option" data-class="male-wizard" type="button">[ MALE WIZARD ]</button>
+            <button class="class-option" data-class="female-wizard" type="button">[ FEMALE WIZARD ]</button>
+          </div>
+          <p class="class-flavor" id="class-flavor"></p>
         </div>
-        <div class="path-list" id="path-list"></div>
       </div>
     </section>
 
-    <section class="horizon section shell" id="horizon">
-      <div class="section-head">
-        <div><p class="eyebrow dark">On the horizon</p><h2>A life with<br><em>texture.</em></h2></div>
-        <p>Specific enough to pursue. Open enough to surprise me.</p>
+    <!-- SCREEN 2: QUEST LOG -->
+    <section id="screen-quests" class="screen screen-quests" hidden aria-label="Quest log">
+      <div class="parchment" id="parchment">
+        <header class="parchment-head">
+          <h2>WHAT ARE YOUR QUESTS AND GOALS?</h2>
+          <p class="parchment-sub">Declare your vows, or strike them from the record. These oaths shall pave your road to Avalon.</p>
+        </header>
+
+        <div id="quest-list" class="quest-list"></div>
+
+        <button id="btn-add-quest" class="arcade-btn outline" type="button">[ + ADD NEW QUEST CATEGORY ]</button>
+
+        <div class="parchment-foot">
+          <button id="btn-seal-oaths" class="arcade-btn blink seal" type="button">[ PRESS START TO SEAL YOUR OATHS ]</button>
+          <div class="data-tools">
+            <button id="export-data" class="text-btn" type="button">Download backup</button>
+            <label class="text-btn import-label">Restore backup<input id="import-data" type="file" accept="application/json"></label>
+          </div>
+        </div>
       </div>
-      <div class="horizon-grid">
-        <article class="horizon-card image-card"><span>01 · Home base</span><div><h3 data-edit="horizon-home">A home built for the life ahead</h3><p data-edit="horizon-home-note">Comfort · Freedom · Belonging</p></div></article>
-        <article class="horizon-card ink-card"><span>02 · Creative</span><div><h3 data-edit="horizon-create">Publish a world only I could make</h3><p data-edit="horizon-create-note">Two campaigns · One book</p></div></article>
-        <article class="horizon-card warm-card"><span>03 · Adventure</span><div><h3 data-edit="horizon-travel">Cast into wild water</h3><p data-edit="horizon-travel-note">Wild rivers · Strange conventions · New Zealand</p></div></article>
-        <article class="horizon-card pale-card"><span>04 · Together</span><div><h3 data-edit="horizon-family">More tables. More stories. More time.</h3><p data-edit="horizon-family-note">Debra & the kids</p></div></article>
-      </div>
+      <div class="flame-overlay" id="flame-overlay" hidden aria-hidden="true"></div>
     </section>
 
-    <section class="closing section"><div class="shell"><p class="eyebrow">The road continues</p><h2>Not someday.<br><em>Today.</em></h2><p>Every meaningful life is built in ordinary hours.<br>Choose the next right step.</p><a class="text-link" href="#top">Return to the beginning ↑</a></div></section>
-  </main>
+    <!-- SCREEN 3: GAME WORLD -->
+    <section id="screen-world" class="screen screen-world" hidden aria-label="Game world">
+      <div class="banner" id="quest-banner" hidden>
+        <span>YOUR QUEST HAS BEGUN!</span>
+      </div>
 
-  <footer><div class="shell"><a class="brand" href="#top"><span class="brand-mark">A</span><span>Road to Avalon</span></a><p>Your entries stay in this browser unless you download a backup.</p><span>© <span id="year"></span> Nick Abruzzo</span></div></footer>
+      <div class="hud">
+        <div class="hud-left">
+          <strong id="hud-name">ADVENTURER</strong>
+          <span id="hud-class">KNIGHT</span>
+        </div>
+        <div class="hud-center">
+          <span>PROGRESS</span>
+          <div class="hud-bar"><i id="hud-bar"></i></div>
+          <strong id="hud-pct">0%</strong>
+        </div>
+        <div class="hud-right">
+          <button id="btn-open-log" class="arcade-btn tiny" type="button">[ QUEST LOG ]</button>
+          <button id="btn-mute" class="arcade-btn tiny" type="button" aria-pressed="false">[ SOUND ]</button>
+        </div>
+      </div>
+
+      <div class="world-stage" id="world-stage">
+        <div class="world-sky layers" aria-hidden="true">
+          <div class="layer far"></div>
+          <div class="layer mid"></div>
+          <div class="layer near"></div>
+          <div class="layer ground"></div>
+        </div>
+        <div class="hero-sprite" id="hero-sprite" data-class="male-knight">
+          <div class="pixel-hero"></div>
+          <span class="hero-label" id="hero-label">Ready</span>
+        </div>
+        <div class="monster-road" id="monster-road"></div>
+      </div>
+
+      <p class="world-hint">Click a foe to strike its milestone. Defeated foes mark progress on your road to Avalon.</p>
+    </section>
+
+    <div id="blackout" class="blackout" hidden aria-hidden="true"></div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
