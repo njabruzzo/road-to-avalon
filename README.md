@@ -1,10 +1,10 @@
-# Road to Avalon
+# Quest for Avalon
 
-A responsive personal vision board organized around six life paths: creativity, health, home and wealth, relationships, experiences, and learning and wisdom.
+A gamified vision board that turns life goals into an 8-bit quest. Progress is shown as monsters on the road—defeat them by completing milestones.
 
-## Use the site
+## How to play
 
-Open `index.html`, or serve the folder locally:
+Open `index.html`, or serve locally:
 
 ```bash
 python3 -m http.server 8080
@@ -12,10 +12,13 @@ python3 -m http.server 8080
 
 Then visit `http://localhost:8080`.
 
-Select **Edit journey** to update goals, status, notes, and milestones. Progress can be based on completed milestones or a numeric value moving up or down. Changes save automatically in the current browser.
+1. **Title screen** — Press start to begin your adventure.
+2. **The Tavern** — Enter your name and choose a class (Knight or Wizard).
+3. **Quest Log** — Customize quest categories and milestones. Delete what you do not need, add new vows, then seal your oaths.
+4. **Game World** — Your character stands on the road. Each monster is a milestone; click to strike it and mark progress.
+
+Return to the Quest Log anytime from the HUD. Progress saves automatically in this browser.
 
 ## Data and privacy
 
-The repository contains only the site and its starter content. Personal updates are stored in the browser's local storage and are not committed to GitHub or transmitted by the site. Use **Download backup** periodically, then **Restore backup** to move your data to another browser or device.
-
-Browser storage is convenient, but it is not account-based security or synchronization. Anyone using the same browser profile can see the saved entries. Authentication and encrypted cloud synchronization would require a private backend and should be added before using the site for sensitive health or financial records across devices.
+Personal updates stay in local storage and are not sent anywhere. Use **Download backup** / **Restore backup** on the Quest Log to move data between browsers.

@@ -1,123 +1,657 @@
-const STORAGE_KEY = 'road-to-avalon-v3';
+const STORAGE_KEY = 'quest-for-avalon-v1';
 
-const defaults = {
-  categories: [
-    { id:'creative', number:'01', icon:'✦', title:'Creative experiments', headline:'Make the strange things real.', description:'Turn imagination into tangible worlds—games, toys, books, and stories that invite others in.', goal:'Publish one original tabletop setting and run two complete campaigns.', type:'milestones', current:'Concept development', target:'1 setting + 2 campaigns', currentValue:0, targetValue:100, unit:'%', note:'', milestones:[['Choose the flagship setting and define its promise',false],['Complete a playable first draft',false],['Run campaign one and collect feedback',false],['Revise, illustrate, and publish',false]] },
-    { id:'health', number:'02', icon:'♥', title:'Health & strength', headline:'Build a body for the long adventure.', description:'Steady progress over perfection: strength, energy, metabolic health, and confidence.', goal:'Reach 190 lb and an A1C below 6 while building durable strength.', type:'number-down', current:'215 lb', target:'190 lb', startValue:215, currentValue:215, targetValue:190, unit:'lb', note:'', milestones:[['Strength train three days each week',false],['Establish a sustainable nutrition routine',false],['Reach an interim A1C below 7',false],['Bench 230 lb and deadlift 405 lb',false]] },
-    { id:'wealth', number:'03', icon:'⌂', title:'Home & wealth', headline:'Create freedom, not just assets.', description:'A fulfilling home, a resilient portfolio, and the freedom to choose how each day is spent.', goal:'Create a home that supports the life we want and a clear path to retirement at 65.', type:'milestones', current:'Defining the next chapter', target:'Ideal home + retirement plan', currentValue:0, targetValue:100, unit:'%', note:'', milestones:[['Define our ideal home and community',false],['Set the home budget and down-payment target',false],['Complete an annual retirement-plan review',false],['Establish the next long-term home base',false]] },
-    { id:'relationships', number:'04', icon:'∞', title:'Relationships', headline:'Choose connection, again and again.', description:'Make time feel abundant for Debra, Francesca, Anthony, and Isabella. Listen well. Show up fully.', goal:'Create reliable rituals for deeper connection with Debra and each of the kids.', type:'milestones', current:'Building consistency', target:'Weekly + monthly rituals', currentValue:0, targetValue:100, unit:'%', note:'', milestones:[['Plan one intentional date with Debra each month',false],['Create a one-on-one ritual with each child',false],['Plan a full-family experience each quarter',false],['Take one meaningful family trip together',false]] },
-    { id:'experiences', number:'05', icon:'↗', title:'Experiences & travel', headline:'Collect stories, not souvenirs.', description:'Follow wild trout, strange conventions, old cities, and the irresistible pull of places not yet known.', goal:'Take one major journey and three smaller curiosity-driven adventures every year.', type:'milestones', current:'Planning the next journey', target:'1 major + 3 small / year', currentValue:0, targetValue:100, unit:'%', note:'', milestones:[['Choose and schedule this year’s major journey',false],['Book a destination fly-fishing experience',false],['Attend a game, miniatures, or weird convention',false],['Explore somewhere outside the usual orbit',false]] },
-    { id:'wisdom', number:'06', icon:'◈', title:'Learning & wisdom', headline:'Stay curious. Become useful.', description:'Keep learning deeply, make sense of the changing world, and turn knowledge into better choices.', goal:'Build a deliberate practice for learning, reflection, and sharing what I know.', type:'milestones', current:'Choosing a learning rhythm', target:'A durable learning practice', currentValue:0, targetValue:100, unit:'%', note:'', milestones:[['Choose three subjects for deep learning this year',false],['Create a weekly reading and reflection ritual',false],['Complete one meaningful course or project',false],['Share or teach something I have learned',false]] }
-  ],
-  copy: {}
+const CLASS_META = {
+  'male-knight': {
+    label: 'MALE KNIGHT',
+    flavor: 'A Stage 1 Knight steps into the firelight—dagger ready, cloak plain, vow unbroken.'
+  },
+  'male-wizard': {
+    label: 'MALE WIZARD',
+    flavor: 'Arcane light sparks at his staff. The tavern hush deepens as runes awaken.'
+  },
+  'female-wizard': {
+    label: 'FEMALE WIZARD',
+    flavor: 'She rises from shadow; violet sparks crown her hat. Avalon stirs.'
+  }
 };
 
-const clone = value => JSON.parse(JSON.stringify(value));
-const load = () => {
+const MONSTER_TYPES = ['goblin', 'skeleton', 'slime', 'bat', 'dragon', 'ghost', 'orc'];
+
+const defaultQuests = () => ([
+  {
+    id: uid(),
+    title: 'Health',
+    goal: 'Build functional strength and stamina',
+    milestones: [
+      { id: uid(), text: 'Lift weights 3x a week', done: false },
+      { id: uid(), text: 'Maintain 10 mins of vigorous cardio daily', done: false }
+    ]
+  },
+  {
+    id: uid(),
+    title: 'Wealth',
+    goal: 'Optimize current investment portfolio',
+    milestones: [
+      { id: uid(), text: 'Manage tax-loss harvesting strategy', done: false },
+      { id: uid(), text: 'Balance tech/defense sectors', done: false }
+    ]
+  },
+  {
+    id: uid(),
+    title: 'Home',
+    goal: 'Curate the collection display',
+    milestones: [
+      { id: uid(), text: 'Build custom diorama shelving for 1/6 scale figures', done: false },
+      { id: uid(), text: 'Install lighting for Mythic Legions display', done: false }
+    ]
+  },
+  {
+    id: uid(),
+    title: 'Relationships',
+    goal: 'Execute the New Zealand Trip',
+    milestones: [
+      { id: uid(), text: 'Plan the 10-day October itinerary with Debra', done: false }
+    ]
+  },
+  {
+    id: uid(),
+    title: 'Career',
+    goal: 'Drive digital transformation',
+    milestones: [
+      { id: uid(), text: 'Execute the next phase of organizational AI orchestration', done: false }
+    ]
+  },
+  {
+    id: uid(),
+    title: 'Creative Explorations',
+    goal: 'Launch the new tabletop campaign',
+    milestones: [
+      { id: uid(), text: 'Finalize the backdrop lore for the AD&D 2nd Edition game', done: false }
+    ]
+  },
+  {
+    id: uid(),
+    title: 'Knowledge & Wisdom',
+    goal: 'Advance personal studies',
+    milestones: [
+      { id: uid(), text: 'Complete the next chapter of historical and prophetic research', done: false }
+    ]
+  }
+]);
+
+function uid() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (!saved?.categories) return clone(defaults);
-    const merged = clone(defaults);
-    merged.copy = saved.copy || {};
-    merged.categories = defaults.categories.map(base => ({...base, ...(saved.categories.find(item => item.id === base.id) || {})}));
-    return merged;
-  } catch { return clone(defaults); }
-};
-let state = load();
+    if (!saved || !Array.isArray(saved.quests)) throw new Error('empty');
+    return {
+      name: saved.name || '',
+      classId: saved.classId || '',
+      quests: saved.quests,
+      onboarded: Boolean(saved.onboarded),
+      muted: Boolean(saved.muted)
+    };
+  } catch {
+    return {
+      name: '',
+      classId: '',
+      quests: defaultQuests(),
+      onboarded: false,
+      muted: false
+    };
+  }
+}
+
+let state = loadState();
 const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-const clamp = n => Math.max(0, Math.min(100, Number.isFinite(n) ? n : 0));
-const progress = item => {
-  if (item.type === 'milestones') return item.milestones.length ? clamp(item.milestones.filter(m => m[1]).length / item.milestones.length * 100) : 0;
-  const start = Number(item.startValue), current = Number(item.currentValue), target = Number(item.targetValue);
-  if ([start,current,target].some(Number.isNaN) || start === target) return 0;
-  return clamp(item.type === 'number-down' ? (start-current)/(start-target)*100 : (current-start)/(target-start)*100);
-};
-const escapeHtml = text => String(text).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-function renderSummary(){
-  const grid = document.querySelector('#summary-grid');
-  grid.innerHTML = state.categories.map(item => {
-    const pct = Math.round(progress(item));
-    const status = item.type === 'milestones' ? `${item.milestones.filter(m=>m[1]).length} of ${item.milestones.length} milestones` : `${item.currentValue} ${item.unit} now · ${item.targetValue} ${item.unit} goal`;
-    return `<a class="summary-card ${item.id}" href="#path-${item.id}"><div class="summary-top"><span>${item.icon}</span><small>${escapeHtml(item.title)}</small></div><strong>${pct}%</strong><div class="track"><i style="width:${pct}%"></i></div><p>${escapeHtml(status)}</p></a>`;
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+/* ---------- Audio (Web Audio chiptune-ish) ---------- */
+const AudioBus = (() => {
+  let ctx = null;
+  let master = null;
+  let musicNodes = [];
+  let musicTimer = null;
+  let track = null;
+
+  function ensure() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = state.muted ? 0 : 0.22;
+      master.connect(ctx.destination);
+    }
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+
+  function setMuted(muted) {
+    state.muted = muted;
+    save();
+    if (master) master.gain.setTargetAtTime(muted ? 0 : 0.22, ctx.currentTime, 0.05);
+  }
+
+  function beep(freq, dur = 0.08, type = 'square', gain = 0.08, when = 0) {
+    if (state.muted) return;
+    const c = ensure();
+    const osc = c.createOscillator();
+    const g = c.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    g.gain.value = gain;
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + when + dur);
+    osc.connect(g); g.connect(master);
+    osc.start(c.currentTime + when);
+    osc.stop(c.currentTime + when + dur + 0.02);
+  }
+
+  function typeClick() {
+    beep(880 + Math.random() * 200, 0.03, 'square', 0.04);
+  }
+
+  function thud() {
+    beep(80, 0.18, 'triangle', 0.18);
+    beep(55, 0.22, 'sine', 0.12, 0.02);
+  }
+
+  function chime() {
+    [523, 659, 784, 1046].forEach((f, i) => beep(f, 0.25, 'square', 0.07, i * 0.08));
+  }
+
+  function cut() {
+    stopMusic();
+    beep(110, 0.05, 'sawtooth', 0.05);
+  }
+
+  function stopMusic() {
+    if (musicTimer) { clearInterval(musicTimer); musicTimer = null; }
+    musicNodes.forEach(n => { try { n.stop(); } catch (_) {} });
+    musicNodes = [];
+    track = null;
+  }
+
+  function playLoop(name) {
+    if (track === name) return;
+    stopMusic();
+    track = name;
+    ensure();
+    const patterns = {
+      title: {
+        notes: [262, 311, 349, 392, 349, 311, 262, 233, 262, 311, 392, 466, 392, 349, 311, 262],
+        tempo: 160
+      },
+      tavern: {
+        notes: [196, 233, 262, 233, 196, 175, 196, 220, 233, 262, 294, 262, 233, 220, 196, 175],
+        tempo: 200
+      },
+      world: {
+        notes: [330, 392, 440, 494, 440, 392, 349, 392, 440, 523, 494, 440, 392, 349, 330, 294],
+        tempo: 170
+      }
+    };
+    const p = patterns[name] || patterns.title;
+    let i = 0;
+    musicTimer = setInterval(() => {
+      if (state.muted || document.hidden) return;
+      const f = p.notes[i % p.notes.length];
+      beep(f, 0.12, 'square', 0.045);
+      if (i % 4 === 0) beep(f / 2, 0.18, 'triangle', 0.03);
+      i += 1;
+    }, p.tempo);
+  }
+
+  return { ensure, setMuted, beep, typeClick, thud, chime, cut, stopMusic, playLoop };
+})();
+
+/* ---------- Screen transitions ---------- */
+async function blackout(ms = 450) {
+  const el = $('#blackout');
+  el.hidden = false;
+  requestAnimationFrame(() => el.classList.add('on'));
+  await wait(ms);
+}
+
+async function reveal(ms = 450) {
+  const el = $('#blackout');
+  el.classList.remove('on');
+  await wait(ms);
+  el.hidden = true;
+}
+
+function wait(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+function showScreen(id) {
+  $$('.screen').forEach(s => {
+    const active = s.id === id;
+    s.classList.toggle('is-active', active);
+    s.hidden = !active;
+  });
+}
+
+async function typeText(el, text, { sfx = true, speed = 38 } = {}) {
+  el.textContent = '';
+  for (const ch of text) {
+    el.textContent += ch;
+    if (sfx && ch.trim()) AudioBus.typeClick();
+    await wait(speed);
+  }
+}
+
+/* ---------- TITLE ---------- */
+function initTitle() {
+  $('#btn-begin').addEventListener('click', async () => {
+    AudioBus.ensure();
+    AudioBus.cut();
+    await blackout(500);
+    showScreen('screen-tavern');
+    await reveal(400);
+    startTavern();
+  });
+}
+
+/* ---------- TAVERN ---------- */
+async function startTavern() {
+  AudioBus.playLoop('tavern');
+  $('#name-stage').hidden = false;
+  $('#class-stage').hidden = true;
+  $('#btn-confirm-name').hidden = true;
+  $('#adventurer-name').value = state.name || '';
+
+  await typeText($('#name-prompt'), 'WHAT IS YOUR NAME, ADVENTURER?');
+  $('#btn-confirm-name').hidden = false;
+  $('#adventurer-name').focus();
+}
+
+function initTavern() {
+  const nameInput = $('#adventurer-name');
+  const confirm = $('#btn-confirm-name');
+
+  const maybeShow = () => {
+    confirm.hidden = !nameInput.value.trim();
+  };
+  nameInput.addEventListener('input', () => {
+    nameInput.value = nameInput.value.toUpperCase().replace(/[^A-Z0-9_\- ]/g, '');
+    maybeShow();
+    AudioBus.typeClick();
+  });
+  nameInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && nameInput.value.trim()) confirm.click();
+  });
+
+  confirm.addEventListener('click', async () => {
+    const name = nameInput.value.trim();
+    if (!name) return;
+    state.name = name;
+    save();
+    AudioBus.beep(440, 0.1, 'square', 0.08);
+    await blackout(350);
+    $('#name-stage').hidden = true;
+    $('#class-stage').hidden = false;
+    await reveal(350);
+    await typeText($('#class-prompt'), 'WHAT DO YOU WANT TO BE WHEN YOU GROW UP?');
+  });
+
+  $$('.class-option, .shadow-figure').forEach(btn => {
+    btn.addEventListener('click', () => selectClass(btn.dataset.class));
+    btn.addEventListener('mouseenter', () => previewClass(btn.dataset.class));
+  });
+}
+
+function previewClass(classId) {
+  $$('.shadow-figure').forEach(fig => {
+    fig.classList.toggle('is-chosen', fig.dataset.class === classId);
+    fig.classList.toggle('is-dim', fig.dataset.class !== classId);
+  });
+  $$('.class-option').forEach(opt => {
+    opt.classList.toggle('is-selected', opt.dataset.class === classId);
+  });
+  $('#class-flavor').textContent = CLASS_META[classId]?.flavor || '';
+}
+
+async function selectClass(classId) {
+  previewClass(classId);
+  state.classId = classId;
+  save();
+  AudioBus.chime();
+  await wait(700);
+  await blackout(400);
+  showScreen('screen-quests');
+  await reveal(300);
+  startQuestLog();
+}
+
+/* ---------- QUEST LOG ---------- */
+function startQuestLog() {
+  AudioBus.playLoop('tavern');
+  AudioBus.thud();
+  const parchment = $('#parchment');
+  parchment.style.animation = 'none';
+  // reflow to restart drop
+  void parchment.offsetWidth;
+  parchment.style.animation = '';
+  renderQuestLog();
+}
+
+function renderQuestLog() {
+  const list = $('#quest-list');
+  list.innerHTML = state.quests.map((quest, qi) => `
+    <article class="quest-block" data-quest="${quest.id}">
+      <div class="quest-top">
+        <div class="quest-title-wrap">
+          <input class="quest-title" data-field="title" value="${escapeHtml(quest.title)}" aria-label="Quest category">
+        </div>
+        <button class="delete-quest" type="button" data-delete-quest="${quest.id}">[x] Delete Quest</button>
+      </div>
+      <div class="field-row">
+        <label>Goal:</label>
+        <input data-field="goal" value="${escapeHtml(quest.goal)}" aria-label="Quest goal">
+      </div>
+      ${quest.milestones.map((m, mi) => `
+        <div class="milestone-row">
+          <label>Milestone ${mi + 1}:</label>
+          <input data-milestone="${m.id}" value="${escapeHtml(m.text)}" aria-label="Milestone ${mi + 1}">
+          <button class="delete-milestone" type="button" data-delete-milestone="${m.id}" aria-label="Delete milestone">[x]</button>
+        </div>
+      `).join('')}
+      <button class="add-milestone" type="button" data-add-milestone="${quest.id}">[ + Add Milestone ]</button>
+    </article>
+  `).join('');
+
+  list.querySelectorAll('[data-field]').forEach(input => {
+    input.addEventListener('input', () => {
+      const block = input.closest('.quest-block');
+      const quest = state.quests.find(q => q.id === block.dataset.quest);
+      if (!quest) return;
+      quest[input.dataset.field] = input.value;
+      save();
+    });
+  });
+
+  list.querySelectorAll('[data-milestone]').forEach(input => {
+    input.addEventListener('input', () => {
+      const block = input.closest('.quest-block');
+      const quest = state.quests.find(q => q.id === block.dataset.quest);
+      const mile = quest?.milestones.find(m => m.id === input.dataset.milestone);
+      if (!mile) return;
+      mile.text = input.value;
+      save();
+    });
+  });
+
+  list.querySelectorAll('[data-delete-quest]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.deleteQuest;
+      if (state.quests.length <= 1) {
+        AudioBus.beep(120, 0.1, 'sawtooth', 0.08);
+        return;
+      }
+      state.quests = state.quests.filter(q => q.id !== id);
+      save();
+      AudioBus.beep(180, 0.08, 'square', 0.06);
+      renderQuestLog();
+    });
+  });
+
+  list.querySelectorAll('[data-delete-milestone]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mid = btn.dataset.deleteMilestone;
+      const block = btn.closest('.quest-block');
+      const quest = state.quests.find(q => q.id === block.dataset.quest);
+      if (!quest) return;
+      quest.milestones = quest.milestones.filter(m => m.id !== mid);
+      save();
+      AudioBus.beep(200, 0.06, 'square', 0.05);
+      renderQuestLog();
+    });
+  });
+
+  list.querySelectorAll('[data-add-milestone]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const quest = state.quests.find(q => q.id === btn.dataset.addMilestone);
+      if (!quest) return;
+      quest.milestones.push({ id: uid(), text: 'New milestone', done: false });
+      save();
+      AudioBus.beep(520, 0.06, 'square', 0.05);
+      renderQuestLog();
+      const inputs = $$(`[data-quest="${quest.id}"] [data-milestone]`);
+      const last = inputs[inputs.length - 1];
+      if (last) { last.focus(); last.select(); }
+    });
+  });
+}
+
+function initQuestLog() {
+  $('#btn-add-quest').addEventListener('click', () => {
+    state.quests.push({
+      id: uid(),
+      title: 'New Quest',
+      goal: 'Declare your vow…',
+      milestones: [{ id: uid(), text: 'First milestone', done: false }]
+    });
+    save();
+    AudioBus.beep(620, 0.08, 'square', 0.06);
+    renderQuestLog();
+    const titles = $$('.quest-title');
+    const last = titles[titles.length - 1];
+    if (last) { last.focus(); last.select(); }
+  });
+
+  $('#btn-seal-oaths').addEventListener('click', async () => {
+    // prune empty milestones / empty quests lightly
+    state.quests.forEach(q => {
+      q.title = q.title.trim() || 'Untitled Quest';
+      q.goal = q.goal.trim() || 'An unspoken vow';
+      q.milestones = q.milestones
+        .map(m => ({ ...m, text: m.text.trim() }))
+        .filter(m => m.text.length);
+      if (!q.milestones.length) {
+        q.milestones.push({ id: uid(), text: 'Define the first step', done: false });
+      }
+    });
+    state.onboarded = true;
+    save();
+
+    AudioBus.cut();
+    const flame = $('#flame-overlay');
+    flame.hidden = false;
+    AudioBus.beep(200, 0.15, 'sawtooth', 0.1);
+    AudioBus.beep(400, 0.2, 'square', 0.08, 0.05);
+    await wait(700);
+    flame.hidden = true;
+    await blackout(300);
+    showScreen('screen-world');
+    await reveal(250);
+    startWorld({ announce: true });
+  });
+
+  $('#export-data').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `quest-for-avalon-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  $('#import-data').addEventListener('change', event => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const imported = JSON.parse(reader.result);
+        if (!Array.isArray(imported.quests)) throw new Error('bad');
+        state = {
+          name: imported.name || state.name,
+          classId: imported.classId || state.classId,
+          quests: imported.quests,
+          onboarded: Boolean(imported.onboarded),
+          muted: Boolean(imported.muted)
+        };
+        save();
+        renderQuestLog();
+        AudioBus.chime();
+      } catch {
+        alert('That file is not a valid Quest for Avalon backup.');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  });
+}
+
+/* ---------- WORLD ---------- */
+function allMilestones() {
+  const out = [];
+  state.quests.forEach(q => {
+    q.milestones.forEach(m => out.push({ quest: q, milestone: m }));
+  });
+  return out;
+}
+
+function progressPct() {
+  const all = allMilestones();
+  if (!all.length) return 0;
+  const done = all.filter(x => x.milestone.done).length;
+  return Math.round((done / all.length) * 100);
+}
+
+function monsterTypeFor(index) {
+  return MONSTER_TYPES[index % MONSTER_TYPES.length];
+}
+
+function startWorld({ announce = false } = {}) {
+  AudioBus.playLoop('world');
+  const name = (state.name || 'ADVENTURER').toUpperCase();
+  const classLabel = CLASS_META[state.classId]?.label || 'KNIGHT';
+  $('#hud-name').textContent = name;
+  $('#hud-class').textContent = classLabel;
+  $('#hero-sprite').dataset.class = state.classId || 'male-knight';
+  updateHud();
+  renderMonsters();
+
+  if (announce) {
+    AudioBus.chime();
+    const banner = $('#quest-banner');
+    banner.hidden = false;
+    banner.style.animation = 'none';
+    void banner.offsetWidth;
+    banner.style.animation = '';
+    setTimeout(() => { banner.hidden = true; }, 5200);
+  }
+}
+
+function updateHud() {
+  const pct = progressPct();
+  $('#hud-pct').textContent = `${pct}%`;
+  $('#hud-bar').style.width = `${pct}%`;
+  $('#hero-label').textContent = pct >= 100 ? 'LEGEND' : pct > 0 ? 'Advancing' : 'Ready';
+}
+
+function renderMonsters() {
+  const road = $('#monster-road');
+  const items = allMilestones();
+  road.innerHTML = items.map((item, index) => {
+    const { quest, milestone } = item;
+    const type = monsterTypeFor(index);
+    const defeated = milestone.done ? 'defeated' : '';
+    return `
+      <button class="monster ${defeated}" type="button"
+        data-type="${type}"
+        data-quest="${quest.id}"
+        data-milestone="${milestone.id}"
+        ${milestone.done ? 'disabled' : ''}
+        aria-label="${escapeHtml(milestone.text)}">
+        <div class="monster-sprite" aria-hidden="true"></div>
+        <div class="monster-name">${escapeHtml(milestone.text)}</div>
+        <div class="monster-quest">${escapeHtml(quest.title)}</div>
+      </button>
+    `;
   }).join('');
-  const overall = Math.round(state.categories.reduce((sum,item)=>sum+progress(item),0)/state.categories.length);
-  document.querySelector('#overall-progress').textContent = `${overall}%`;
-  document.querySelector('#overall-bar').style.width = `${overall}%`;
-  document.querySelector('#overall-caption').textContent = overall ? 'Progress is the accumulation of ordinary, intentional days.' : 'Begin with one next step.';
-}
 
-function pathTemplate(item){
-  const pct = Math.round(progress(item));
-  const numeric = item.type !== 'milestones';
-  return `<article class="path-card ${item.id}" id="path-${item.id}">
-    <button class="path-summary" type="button" aria-expanded="false">
-      <span class="path-number">${item.number}</span><span class="path-icon">${item.icon}</span>
-      <span class="path-title"><small>${escapeHtml(item.title)}</small><strong>${escapeHtml(item.headline)}</strong><span>${escapeHtml(item.description)}</span></span>
-      <span class="path-progress"><strong>${pct}%</strong><i><b style="width:${pct}%"></b></i></span><span class="chevron">+</span>
-    </button>
-    <div class="path-detail"><div class="detail-inner">
-      <div class="goal-block"><label>Goal<textarea data-field="goal">${escapeHtml(item.goal)}</textarea></label></div>
-      <div class="status-grid">
-        <label>Where I am now<input data-field="current" value="${escapeHtml(item.current)}"></label>
-        <span>→</span><label>Where I’m going<input data-field="target" value="${escapeHtml(item.target)}"></label>
-      </div>
-      <div class="goal-method">
-        <label>How should progress be measured?<select data-field="type"><option value="milestones" ${item.type==='milestones'?'selected':''}>Completed milestones</option><option value="number-up" ${item.type==='number-up'?'selected':''}>A number increasing</option><option value="number-down" ${item.type==='number-down'?'selected':''}>A number decreasing</option></select></label>
-        <div class="number-fields ${numeric?'':'hidden'}"><label>Starting value<input type="number" step="any" data-field="startValue" value="${item.startValue ?? ''}"></label><label>Current value<input type="number" step="any" data-field="currentValue" value="${item.currentValue ?? ''}"></label><label>Goal value<input type="number" step="any" data-field="targetValue" value="${item.targetValue ?? ''}"></label><label>Unit<input data-field="unit" value="${escapeHtml(item.unit || '')}" placeholder="lb, $, books…"></label></div>
-      </div>
-      <label class="update-label">Latest update<textarea data-field="note" placeholder="What moved forward recently?">${escapeHtml(item.note)}</textarea></label>
-      <div class="milestone-head"><div><small>Milestones</small><strong>Steps along this path</strong></div><button class="add-milestone" type="button">+ Add milestone</button></div>
-      <div class="milestones">${item.milestones.map((m,i)=>`<div class="milestone"><label><input type="checkbox" data-milestone="${i}" ${m[1]?'checked':''}><i></i><span contenteditable="false" data-milestone-text="${i}">${escapeHtml(m[0])}</span></label><button class="delete-milestone" data-delete="${i}" type="button" aria-label="Delete milestone">×</button></div>`).join('')}</div>
-    </div></div>
-  </article>`;
-}
-
-function renderPaths(openId){
-  const list = document.querySelector('#path-list');
-  list.innerHTML = state.categories.map(pathTemplate).join('');
-  list.querySelectorAll('.path-card').forEach(card => {
-    const item = state.categories.find(x => `path-${x.id}` === card.id);
-    const summary = card.querySelector('.path-summary');
-    summary.addEventListener('click', () => { card.classList.toggle('open'); summary.setAttribute('aria-expanded', card.classList.contains('open')); });
-    if (item.id === openId) { card.classList.add('open'); summary.setAttribute('aria-expanded','true'); }
-    card.querySelectorAll('[data-field]').forEach(field => field.addEventListener('input', () => {
-      item[field.dataset.field] = field.type === 'number' ? Number(field.value) : field.value;
-      if (field.dataset.field === 'type') card.querySelector('.number-fields').classList.toggle('hidden', field.value === 'milestones');
-      save(); renderSummary(); updateCardProgress(card,item);
-    }));
-    card.querySelectorAll('[data-milestone]').forEach(box => box.addEventListener('change', () => { item.milestones[Number(box.dataset.milestone)][1] = box.checked; save(); renderSummary(); updateCardProgress(card,item); }));
-    card.querySelectorAll('[data-milestone-text]').forEach(field => field.addEventListener('input', () => { item.milestones[Number(field.dataset.milestoneText)][0] = field.textContent.trim(); save(); }));
-    card.querySelectorAll('[data-delete]').forEach(button => button.addEventListener('click', () => { item.milestones.splice(Number(button.dataset.delete),1); save(); renderSummary(); renderPaths(item.id); setEditMode(document.body.classList.contains('editing')); }));
-    card.querySelector('.add-milestone').addEventListener('click', () => { item.milestones.push(['New milestone',false]); save(); renderPaths(item.id); setEditMode(true); const fields=document.querySelectorAll(`#${card.id} [data-milestone-text]`); fields[fields.length-1]?.focus(); });
-  });
-  autosize();
-}
-
-function updateCardProgress(card,item){ const pct=Math.round(progress(item)); card.querySelector('.path-progress strong').textContent=`${pct}%`; card.querySelector('.path-progress b').style.width=`${pct}%`; }
-function autosize(){ document.querySelectorAll('textarea').forEach(area=>{ const fit=()=>{area.style.height='auto';area.style.height=`${area.scrollHeight}px`;}; fit(); area.addEventListener('input',fit); }); }
-
-function initEditableCopy(){
-  document.querySelectorAll('[data-edit]').forEach(field => {
-    const key=field.dataset.edit; if(state.copy[key]) field.innerHTML=state.copy[key];
-    field.addEventListener('input',()=>{state.copy[key]=field.innerHTML;save();});
+  road.querySelectorAll('.monster:not(.defeated)').forEach(btn => {
+    btn.addEventListener('click', () => strikeMonster(btn));
   });
 }
-function setEditMode(enabled){
-  document.body.classList.toggle('editing',enabled);
-  document.querySelector('.edit-toggle').setAttribute('aria-pressed',String(enabled));
-  document.querySelector('.edit-toggle').textContent=enabled?'Editing…':'Edit journey';
-  document.querySelectorAll('[data-edit],[data-milestone-text]').forEach(field=>field.setAttribute('contenteditable',String(enabled)));
+
+function strikeMonster(btn) {
+  const qid = btn.dataset.quest;
+  const mid = btn.dataset.milestone;
+  const quest = state.quests.find(q => q.id === qid);
+  const mile = quest?.milestones.find(m => m.id === mid);
+  if (!mile || mile.done) return;
+
+  mile.done = true;
+  save();
+  btn.classList.add('hit');
+  AudioBus.beep(660, 0.08, 'square', 0.09);
+  AudioBus.beep(880, 0.12, 'square', 0.07, 0.06);
+  setTimeout(() => {
+    btn.classList.add('defeated');
+    btn.disabled = true;
+    updateHud();
+    if (progressPct() >= 100) AudioBus.chime();
+  }, 280);
 }
 
-document.querySelector('.edit-toggle').addEventListener('click',()=>setEditMode(!document.body.classList.contains('editing')));
-document.querySelector('.finish-edit').addEventListener('click',()=>setEditMode(false));
-document.querySelector('#export-data').addEventListener('click',()=>{
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`road-to-avalon-backup-${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(a.href);
-});
-document.querySelector('#import-data').addEventListener('change',event=>{
-  const file=event.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=()=>{ try{const imported=JSON.parse(reader.result);if(!Array.isArray(imported.categories))throw new Error();state=imported;save();renderSummary();renderPaths();initEditableCopy();setEditMode(false);}catch{alert('That file is not a valid Road to Avalon backup.');} };reader.readAsText(file);
-});
+function initWorld() {
+  $('#btn-open-log').addEventListener('click', async () => {
+    await blackout(300);
+    showScreen('screen-quests');
+    await reveal(250);
+    startQuestLog();
+  });
 
-document.querySelector('#year').textContent=new Date().getFullYear();
-renderSummary(); renderPaths(); initEditableCopy();
+  $('#btn-mute').addEventListener('click', () => {
+    AudioBus.setMuted(!state.muted);
+    $('#btn-mute').setAttribute('aria-pressed', String(state.muted));
+    $('#btn-mute').textContent = state.muted ? '[ MUTED ]' : '[ SOUND ]';
+  });
+}
+
+/* ---------- Boot ---------- */
+function boot() {
+  initTitle();
+  initTavern();
+  initQuestLog();
+  initWorld();
+
+  $('#btn-mute')?.setAttribute('aria-pressed', String(state.muted));
+  if ($('#btn-mute')) $('#btn-mute').textContent = state.muted ? '[ MUTED ]' : '[ SOUND ]';
+
+  // Returning adventurer: skip to world if already onboarded
+  if (state.onboarded && state.name && state.classId) {
+    showScreen('screen-world');
+    startWorld({ announce: false });
+  } else {
+    showScreen('screen-title');
+    // Soft-start title music after first gesture only — hint shown on screen
+    const unlock = () => {
+      AudioBus.ensure();
+      AudioBus.playLoop('title');
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
+    window.addEventListener('pointerdown', unlock);
+    window.addEventListener('keydown', unlock);
+  }
+}
+
+boot();
